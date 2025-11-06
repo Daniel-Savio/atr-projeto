@@ -1,0 +1,16 @@
+# General ignores
+node_modules/
+dist/
+
+# Python virtual environments
+.venv/
+venv/
+
+# Backend specific
+/backend/python_modules/
+/backend/.motia/
+/backend/.mermaid/
+
+# Python cache files
+**/__pycache__/
+*.pyc
