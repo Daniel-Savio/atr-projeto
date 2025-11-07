@@ -6,6 +6,14 @@ dist/
 .venv/
 venv/
 
+.DS_Store
+.env
+/node_modules/
+
+# React Router
+/.react-router/
+/build/
+
 # Backend specific
 /backend/python_modules/
 /backend/.motia/
