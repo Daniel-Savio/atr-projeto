@@ -17,15 +17,41 @@
     }
   },
   {
-    "id": "OrderManagement",
+    "id": "ProductManagement",
     "config": {
-      "steps\\endpoints\\create-order.step.ts": {
+      "steps\\endpoints\\product\\create-product.step.ts": {
+        "x": 1,
+        "y": 0
+      },
+      "steps\\endpoints\\product\\get-products.step.ts": {
+        "x": 15,
+        "y": 167
+      }
+    }
+  },
+  {
+    "id": "MealManagement",
+    "config": {
+      "steps\\endpoints\\meals\\create-meal.step.ts": {
         "x": 0,
         "y": 0
       },
-      "steps\\endpoints\\get-order.step.ts": {
-        "x": 10,
+      "steps\\endpoints\\meals\\get-meals.step.ts": {
+        "x": 7,
         "y": 152
+      }
+    }
+  },
+  {
+    "id": "OrderManagement",
+    "config": {
+      "steps\\endpoints\\order\\get-order.step.ts": {
+        "x": 10,
+        "y": 0
+      },
+      "steps\\endpoints\\order\\create-order.step.ts": {
+        "x": 0,
+        "y": 0
       }
     }
   }

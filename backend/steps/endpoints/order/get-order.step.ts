@@ -12,7 +12,7 @@ export const config: ApiRouteConfig = {
     emits: ['OrderListed']
 }
 
-export const handler: Handlers['GetOrder'] = async (req, { logger }) => {
+export const handler: Handlers['GetOrder'] = async (req: any, { logger }: any) => {
 
     logger.info('Get Order', { OrderNumber: "teste" })
     return { status: 200, body: { message: 'Get Order works!' } }

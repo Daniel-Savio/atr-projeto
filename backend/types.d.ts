@@ -12,7 +12,11 @@ declare module 'motia' {
   }
 
   interface Handlers {
-    'CreateOrder': ApiRouteHandler<{ id: string; number: string; meals: Array<'a-vontade' | 'rodizio' | 'por-quilo'>; beveareges: Array<'refrigerante' | 'suco-natural' | 'agua' | 'suco'>; deserts: Array<'pudim' | 'mousse' | 'sorvete'> }, unknown, never>
+    'CreateProduct': ApiRouteHandler<{ type: 'sobremesa' | 'bebida-nao-alcolicas' | 'bebidas-alcolicas'; name: string; price: string }, unknown, never>
     'GetOrder': ApiRouteHandler<{ string: string }, unknown, never>
+    'GetAllProducts': ApiRouteHandler<Array<{ id?: string; type: 'sobremesa' | 'bebida-nao-alcolicas' | 'bebidas-alcolicas'; name: string; price: string }>, unknown, never>
+    'CreateMeal': ApiRouteHandler<{ name: string; price: string; weekendPrice?: string }, unknown, never>
+    'GetMeals': ApiRouteHandler<Array<{ id?: string; name: string; price: string; weekendPrice?: string }>, unknown, never>
+    'CreateOrder': ApiRouteHandler<{ number: string; meals: Array<{ id?: string; name: string; price: string; weekendPrice?: string }>; otherItems?: Array<{ id?: string; type: 'sobremesa' | 'bebida-nao-alcolicas' | 'bebidas-alcolicas'; name: string; price: string }> }, unknown, never>
   }
 }
