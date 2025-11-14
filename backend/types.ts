@@ -1,7 +1,7 @@
 import { z } from 'zod';
 
 export const productTypeSchema = z.enum(['sobremesa', 'bebida-nao-alcolicas', 'bebidas-alcolicas']);
-
+export const statusTypeSchema = z.enum(['Open', 'Closed', 'Cancelled']);
 export const productSchema = z.object({
   id: z.string().optional(),
   type: productTypeSchema,
@@ -20,6 +20,7 @@ export const orderSchema = z.object({
   id: z.string().optional(),
   number: z.string(),
   date: z.string().optional(),
+  status: statusTypeSchema.default('Open'),
   meals: z.array(mealSchema),
   otherItems: z.array(productSchema).optional(),
   total: z.string().optional(),

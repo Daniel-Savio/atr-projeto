@@ -1,5 +1,5 @@
 import { uuid, pgTable, varchar, json } from "drizzle-orm/pg-core";
-import { string } from "zod";
+
 
 export const productsTable = pgTable("products", {
     id: uuid().defaultRandom().primaryKey(),
@@ -18,8 +18,9 @@ export const mealsTable = pgTable("meals", {
 export const ordersTable = pgTable("orders", {
     id: uuid().defaultRandom().primaryKey(),
     number: varchar({ length: 50 }).notNull(),
+    status: varchar({ length: 50 }).notNull(),
     date: varchar({ length: 50 }).notNull(),
-    meals: json().notNull(),
+    meals: json(),
     otherItems: json().default([]),
     total: varchar().notNull(),
 

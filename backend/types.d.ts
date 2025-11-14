@@ -15,7 +15,8 @@ declare module 'motia' {
     'GetAllProducts': ApiRouteHandler<Array<{ id?: string; type: 'sobremesa' | 'bebida-nao-alcolicas' | 'bebidas-alcolicas'; name: string; price: string }>, unknown, never>
     'CreateProduct': ApiRouteHandler<{ type: 'sobremesa' | 'bebida-nao-alcolicas' | 'bebidas-alcolicas'; name: string; price: string }, unknown, never>
     'GetOrder': ApiRouteHandler<{ string: string }, unknown, never>
-    'CreateOrder': ApiRouteHandler<{ number: string; meals: Array<{ id?: string; name: string; price: string; weekendPrice?: string }>; otherItems?: Array<{ id?: string; type: 'sobremesa' | 'bebida-nao-alcolicas' | 'bebidas-alcolicas'; name: string; price: string }> }, unknown, never>
+    'GetOpenOrderByNumber': ApiRouteHandler<{ string: string }, unknown, never>
+    'CreateOrder': ApiRouteHandler<{ number: string; status?: 'Open' | 'Closed' | 'Cancelled'; meals: Array<{ id?: string; name: string; price: string; weekendPrice?: string }>; otherItems?: Array<{ id?: string; type: 'sobremesa' | 'bebida-nao-alcolicas' | 'bebidas-alcolicas'; name: string; price: string }> }, unknown, never>
     'GetMeals': ApiRouteHandler<Array<{ id?: string; name: string; price: string; weekendPrice?: string }>, unknown, never>
     'CreateMeal': ApiRouteHandler<{ name: string; price: string; weekendPrice?: string }, unknown, never>
   }

@@ -9,6 +9,9 @@ import {
 
 import type { Route } from "./+types/root";
 import "./app.css";
+import { useNavigation } from "react-router";
+import { GlobalSpinner } from "./components/global-spinner";
+
 
 export const links: Route.LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -24,6 +27,8 @@ export const links: Route.LinksFunction = () => [
 ];
 
 export function Layout({ children }: { children: React.ReactNode }) {
+  const navigation = useNavigation();
+  const isNavigating = Boolean(navigation.location);
   return (
     <html lang="en">
       <head>
@@ -34,6 +39,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
       </head>
       <body className="bg-linear-to-t from-zinc-50 to-zinc-100 min-h-screen">
         {children}
+        {isNavigating && <GlobalSpinner />}
         <ScrollRestoration />
         <Scripts />
       </body>

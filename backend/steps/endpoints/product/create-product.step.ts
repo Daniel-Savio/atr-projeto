@@ -18,7 +18,7 @@ export const config: ApiRouteConfig = {
 // The actual thing
 export const handler: Handlers['CreateProduct'] = async (req: any, { logger }: any) => {
     const product = productSchema.parse(req.body)
-    await db.insert(productsTable).values(product)
+    const command = await db.insert(productsTable).values(product)
     logger.info('New Product', { OrderId: product.id })
-    return { status: 201, body: product }
+    return { status: 201, body: { product, command } }
 }

@@ -30,19 +30,6 @@
     }
   },
   {
-    "id": "OrderManagement",
-    "config": {
-      "steps\\endpoints\\order\\get-order.step.ts": {
-        "x": 10,
-        "y": 0
-      },
-      "steps\\endpoints\\order\\create-order.step.ts": {
-        "x": 0,
-        "y": 0
-      }
-    }
-  },
-  {
     "id": "ProductManagement",
     "config": {
       "steps\\endpoints\\product\\get-products.step.ts": {
@@ -52,6 +39,23 @@
       "steps\\endpoints\\product\\create-product.step.ts": {
         "x": 1,
         "y": 0
+      }
+    }
+  },
+  {
+    "id": "OrderManagement",
+    "config": {
+      "steps\\endpoints\\order\\get-order.step.ts": {
+        "x": -18,
+        "y": 0
+      },
+      "steps\\endpoints\\order\\get-order-by-number.step.ts": {
+        "x": -19,
+        "y": 311
+      },
+      "steps\\endpoints\\order\\create-order.step.ts": {
+        "x": -16,
+        "y": 152
       }
     }
   }
