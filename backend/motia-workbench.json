@@ -46,16 +46,32 @@
     "id": "OrderManagement",
     "config": {
       "steps\\endpoints\\order\\get-order.step.ts": {
-        "x": -18,
-        "y": 0
+        "x": 312,
+        "y": 29
       },
-      "steps\\endpoints\\order\\get-order-by-number.step.ts": {
-        "x": -19,
-        "y": 311
+      "steps\\endpoints\\order\\get-open-order-by-number.step.ts": {
+        "x": 301,
+        "y": 191
       },
       "steps\\endpoints\\order\\create-order.step.ts": {
-        "x": -16,
-        "y": 152
+        "x": -103,
+        "y": 174
+      },
+      "steps\\endpoints\\order\\get-order-by-id.step.ts": {
+        "x": 286,
+        "y": 503
+      },
+      "steps\\endpoints\\order\\close-order.step.ts": {
+        "x": -99,
+        "y": 318
+      },
+      "steps\\endpoints\\order\\get-open-order.step.ts": {
+        "x": 291,
+        "y": 345
+      },
+      "steps\\endpoints\\order\\get-closed-order.step.ts": {
+        "x": 264,
+        "y": 676
       }
     }
   }
