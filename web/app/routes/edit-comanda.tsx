@@ -21,6 +21,9 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 
 import { Skeleton } from "~/components/ui/skeleton";
 import { Spinner } from "~/components/ui/spinner";
+import { toast } from "sonner";
+import { useEffect, useState } from "react";
+
 
 
 function createNewOrder(comandaNumber: string): Order {
@@ -47,8 +50,10 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
   if (orderResponse.ok) {
     const existedOrder = await orderResponse.json();
     order = existedOrder?.order ?? createNewOrder(comandaNumber);
+    toast.success("Comanda carregada com sucesso!", { position: "top-right" });
   } else {
     order = createNewOrder(comandaNumber);
+    toast.info("Comanda não encontrada. Criando uma nova comanda.", { position: "top-right" });
   }
 
   const meals = mealsResponse.ok ? await mealsResponse.json() : [];
@@ -59,20 +64,24 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
 
 
 export function HydrateFallback() {
+
+
   return (
     <div className="flex flex-col min-h-screen gap-4 justify-center items-center mx-auto p-4">
       <Card>
         <CardHeader>
-          <CardTitle><h1 className="text-2xl font-bold mb-1">Carregando Comanda...</h1></CardTitle>
-          <CardDescription>
-            <Spinner />
+          <CardTitle><h1 className="text-2xl font-bold mb-1 text-muted-foreground">Carregando Comanda...</h1> <Spinner /></CardTitle>
+          <CardDescription className="space-y-2">
+            <Skeleton className="h-4 w-[250px]" />
+            <Skeleton className="h-4 w-[150px]" />
+
           </CardDescription>
         </CardHeader>
-        <CardContent className="space-y-4">
-          <Skeleton className="h-4 w-[250px]" />
-          <Skeleton className="h-4 w-[250px]" />
-          <Skeleton className="h-4 w-[250px]" />
-          <Skeleton className="h-4 w-[250px]" />
+        <CardContent className="space-y-8">
+          <Skeleton className="h-4 w-[350px]" />
+          <Skeleton className="h-4 w-[350px]" />
+          <Skeleton className="h-4 w-[350px]" />
+          <Skeleton className="h-4 w-[350px]" />
         </CardContent>
       </Card>
     </div>
@@ -83,6 +92,18 @@ export function HydrateFallback() {
 
 export default function Comanda({ loaderData }: Route.ComponentProps) {
   const { order, meals, products } = loaderData;
+  const [peso, setPeso] = useState("1");
+
+
+  function calculatePricePerWeight(basePrice: string, weight: string, index: number) {
+    setPeso(weight);
+    console.log(basePrice, peso);
+    const price = (parseFloat(basePrice) * parseFloat(weight)).toFixed(2);
+    console.log(price);
+    mealsArray[index].price = price.toString();
+  }
+
+  useEffect(() => { }, [peso]);
 
   const { register, control, handleSubmit, formState: { errors }, setValue, watch } = useForm<Order>({
     defaultValues: order,
@@ -104,10 +125,7 @@ export default function Comanda({ loaderData }: Route.ComponentProps) {
   const onSubmit = async (data: PostOrderSchema) => {
     console.log(data);
 
-    const sendOrder = {
-      ...data,
-      number: order.number,
-    }
+
     await fetch("http://localhost:3000/orders", {
       method: "POST",
       headers: {
@@ -116,6 +134,7 @@ export default function Comanda({ loaderData }: Route.ComponentProps) {
       body: JSON.stringify(data),
     }).then((response) => {
       console.log(response)
+      response.ok ? toast.success("Comanda salva com sucesso!", { position: "top-right" }) : toast.error("Erro ao salvar a comanda.", { position: "top-right" });
     })
   };
 
@@ -149,6 +168,7 @@ export default function Comanda({ loaderData }: Route.ComponentProps) {
                           field.onChange(value);
                           const selectedMeal = meals.find((m: Meal) => m.name === value);
                           if (selectedMeal) {
+                            console.log((parseFloat(selectedMeal.price) * parseFloat(peso)).toString())
                             setValue(`meals.${index}.price`, selectedMeal.price);
                             setValue(`meals.${index}.weekendPrice`, selectedMeal.weekendPrice);
                           }
@@ -162,9 +182,14 @@ export default function Comanda({ loaderData }: Route.ComponentProps) {
                         </Select>
                       )}
                     />
+                    {
+                      mealsArray[index]?.name === "Por quilo" &&
+                      <Input placeholder="Pesagem" type="number" step="0.010" value={peso} onChange={(e) => { calculatePricePerWeight(mealsArray[index]?.weekendPrice ?? "44,00", e.target.value, index) }} />
 
-                    <Input {...register(`meals.${index}.price`)} placeholder="Preço" type="number" step="0.01" readOnly hidden />
-                    <Input {...register(`meals.${index}.weekendPrice`)} placeholder="Preço" type="number" step="0.01" readOnly hidden />
+                    }
+
+
+                    <Input {...register(`meals.${index}.weekendPrice`)} placeholder="Preço" type="number" readOnly hidden />
                     <Button type="button" onClick={() => removeMeal(index)} variant="destructive"><Trash2 /></Button>
                   </div>
                 </div>

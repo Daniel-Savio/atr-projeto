@@ -11,6 +11,10 @@ import type { Route } from "./+types/root";
 import "./app.css";
 import { useNavigation } from "react-router";
 import { GlobalSpinner } from "./components/global-spinner";
+import { Toaster } from "./components/ui/sonner";
+import { toast } from "sonner"
+import { useEffect } from "react";
+import { useThresholdSpinnerStore } from "./store/threshold-spinner";
 
 
 export const links: Route.LinksFunction = () => [
@@ -29,6 +33,19 @@ export const links: Route.LinksFunction = () => [
 export function Layout({ children }: { children: React.ReactNode }) {
   const navigation = useNavigation();
   const isNavigating = Boolean(navigation.location);
+
+  useEffect(() => {
+    if (isNavigating) {
+
+      useThresholdSpinnerStore.setState({
+        isLoading: true,
+        message: "Carregando...",
+      });
+    }
+    else {
+      useThresholdSpinnerStore.setState({ isLoading: false });
+    }
+  }, [isNavigating]);
   return (
     <html lang="en">
       <head>
@@ -38,8 +55,9 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Links />
       </head>
       <body className="bg-linear-to-t from-zinc-50 to-zinc-100 min-h-screen">
+        <Toaster />
+        <GlobalSpinner />
         {children}
-        {isNavigating && <GlobalSpinner />}
         <ScrollRestoration />
         <Scripts />
       </body>
@@ -79,3 +97,5 @@ export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
     </main>
   );
 }
+
+

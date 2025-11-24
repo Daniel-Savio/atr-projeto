@@ -8,7 +8,10 @@ export default [
             index("routes/open-comanda.tsx"),
             route(":comandaNumber", "routes/edit-comanda.tsx"),
         ]),
-        route("pagamento", "routes/pagamento.tsx"),
+        ...prefix("pagamento", [
+            index("routes/pagamento.tsx"),
+            route(":id", "routes/payment-comanda.tsx"),
+        ]),
         route("admin", "routes/admin.tsx"),
     ])
 ] satisfies RouteConfig;
