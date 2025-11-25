@@ -18,12 +18,12 @@ import type { Route } from "./+types/edit-comanda";
 import { Badge } from "~/components/ui/badge";
 import { Trash2 } from "lucide-react";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "~/components/ui/card";
-
+import { ArrowLeft } from "lucide-react";
 import { Skeleton } from "~/components/ui/skeleton";
 import { Spinner } from "~/components/ui/spinner";
 import { toast } from "sonner";
 import { useEffect, useState } from "react";
-
+import { useNavigate } from "react-router";
 
 
 function createNewOrder(comandaNumber: string): Order {
@@ -93,7 +93,7 @@ export function HydrateFallback() {
 export default function Comanda({ loaderData }: Route.ComponentProps) {
   const { order, meals, products } = loaderData;
   const [peso, setPeso] = useState("1");
-
+  const navigate = useNavigate();
 
   function calculatePricePerWeight(basePrice: string, weight: string, index: number) {
     setPeso(weight);
@@ -135,7 +135,10 @@ export default function Comanda({ loaderData }: Route.ComponentProps) {
     }).then((response) => {
       console.log(response)
       response.ok ? toast.success("Comanda salva com sucesso!", { position: "top-right" }) : toast.error("Erro ao salvar a comanda.", { position: "top-right" });
+      navigate(`/comanda/`);
     })
+
+    
   };
 
   return (
@@ -262,8 +265,10 @@ export default function Comanda({ loaderData }: Route.ComponentProps) {
             </div>
 
             <Separator className="my-6" />
-
-            <Button type="submit" className="w-full text-lg">Salvar Comanda</Button>
+              <div className="flex gap-4 justify-end items-center">
+                <Button className="flex gap-2 items-center" variant={"secondary"} onClick={(e)=>{e.preventDefault(); navigate('/comanda/')}}> <ArrowLeft></ArrowLeft> Voltar </Button>
+                <Button type="submit" variant={"success"} className=" text-md">Salvar Comanda</Button>
+              </div>
           </form>
         </CardContent>
 

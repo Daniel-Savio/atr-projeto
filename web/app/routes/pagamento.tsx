@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router";
-import OpendInvoices from "~/components/oppend-invoices";
+import Invoices from "~/components/invoices";
 
 export default function Pagamento() {
     const navigate = useNavigate();
@@ -9,7 +9,7 @@ export default function Pagamento() {
     }
     return (
         <section className="flex justify-center items-center h-full p-4">
-            <OpendInvoices returnedCode={(value: string) => handleReturnedCode(value)}></OpendInvoices>
+            <Invoices returnedCode={(value: string) => handleReturnedCode(value)}></Invoices>
         </section>
     )
 }

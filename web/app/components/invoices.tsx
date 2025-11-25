@@ -10,7 +10,7 @@ interface Props {
     returnedCode: (value: string) => void,
 }
 
-export default function OpendInvoices({ returnedCode }: Props) {
+export default function Invoices({ returnedCode }: Props) {
     useEffect(() => {
         fetch("http://localhost:3000/orders").then((res) => res.json()).then((data: { message: string, orders: Order[] }) => {
             console.log("Fetched orders:", data);
@@ -20,6 +20,8 @@ export default function OpendInvoices({ returnedCode }: Props) {
     }, []);
 
     const [loaderData, setLoaderData] = useState<Order[]>([]);
+
+    
     return (
         <div className="flex justify-center flex-col gap-5 text-center ml-6">
             <h1 className="text-xl font-bold">Comandas Abertas</h1>
