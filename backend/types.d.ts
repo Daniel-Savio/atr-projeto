@@ -21,5 +21,7 @@ declare module 'motia' {
     'CloseOrder': ApiRouteHandler<Record<string, unknown>, unknown, never>
     'GetMeals': ApiRouteHandler<Array<{ id?: string; name: string; price: string; weekendPrice?: string }>, unknown, never>
     'CreateMeal': ApiRouteHandler<{ name: string; price: string; weekendPrice?: string }, unknown, never>
+    'GetOpenOrders': ApiRouteHandler<{ string: string }, unknown, never>
+    'GetClosedOrders': ApiRouteHandler<{ string: string }, unknown, never>
   }
 }

@@ -16,7 +16,7 @@ import {
 } from "~/components/ui/select";
 import type { Route } from "./+types/edit-comanda";
 import { Badge } from "~/components/ui/badge";
-import { Trash2 } from "lucide-react";
+import { Save, Trash2 } from "lucide-react";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "~/components/ui/card";
 import { ArrowLeft } from "lucide-react";
 import { Skeleton } from "~/components/ui/skeleton";
@@ -24,6 +24,8 @@ import { Spinner } from "~/components/ui/spinner";
 import { toast } from "sonner";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
+import { Label } from "~/components/ui/label";
+import { useThresholdSpinnerStore } from "~/store/threshold-spinner";
 
 
 function createNewOrder(comandaNumber: string): Order {
@@ -64,11 +66,9 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
 
 
 export function HydrateFallback() {
-
-
   return (
     <div className="flex flex-col min-h-screen gap-4 justify-center items-center mx-auto p-4">
-      <Card>
+      <Card className="w-full flex flex-col justify-center">
         <CardHeader>
           <CardTitle><h1 className="text-2xl font-bold mb-1 text-muted-foreground">Carregando Comanda...</h1> <Spinner /></CardTitle>
           <CardDescription className="space-y-2">
@@ -78,10 +78,10 @@ export function HydrateFallback() {
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-8">
-          <Skeleton className="h-4 w-[350px]" />
-          <Skeleton className="h-4 w-[350px]" />
-          <Skeleton className="h-4 w-[350px]" />
-          <Skeleton className="h-4 w-[350px]" />
+          <Skeleton className="h-4 w-full" />
+          <Skeleton className="h-4 w-full" />
+          <Skeleton className="h-4 w-full" />
+          <Skeleton className="h-4 w-full" />
         </CardContent>
       </Card>
     </div>
@@ -94,15 +94,13 @@ export default function Comanda({ loaderData }: Route.ComponentProps) {
   const { order, meals, products } = loaderData;
   const [peso, setPeso] = useState("1");
   const navigate = useNavigate();
+  const loading = useThresholdSpinnerStore();
 
   function calculatePricePerWeight(basePrice: string, weight: string, index: number) {
     setPeso(weight);
-    console.log(basePrice, peso);
     const price = (parseFloat(basePrice) * parseFloat(weight)).toFixed(2);
-    console.log(price);
     mealsArray[index].price = price.toString();
   }
-
   useEffect(() => { }, [peso]);
 
   const { register, control, handleSubmit, formState: { errors }, setValue, watch } = useForm<Order>({
@@ -118,14 +116,10 @@ export default function Comanda({ loaderData }: Route.ComponentProps) {
     control,
     name: "otherItems",
   });
-
   const productArray = watch("otherItems");
   const mealsArray = watch("meals");
 
   const onSubmit = async (data: PostOrderSchema) => {
-    console.log(data);
-
-
     await fetch("http://localhost:3000/orders", {
       method: "POST",
       headers: {
@@ -133,8 +127,8 @@ export default function Comanda({ loaderData }: Route.ComponentProps) {
       },
       body: JSON.stringify(data),
     }).then((response) => {
-      console.log(response)
       response.ok ? toast.success("Comanda salva com sucesso!", { position: "top-right" }) : toast.error("Erro ao salvar a comanda.", { position: "top-right" });
+      console.log(response.json());
       navigate(`/comanda/`);
     })
 
@@ -145,7 +139,7 @@ export default function Comanda({ loaderData }: Route.ComponentProps) {
     <div className="flex flex-col min-h-screen gap-4 justify-center items-center mx-auto p-4">
 
 
-      <Card className="w-full">
+      <Card className="w-full flex flex-col justify-center">
         <CardHeader>
           <CardTitle><h1 className="text-2xl font-bold mb-1">Editar Comanda: {order.number}</h1></CardTitle>
           <CardDescription>
@@ -155,14 +149,14 @@ export default function Comanda({ loaderData }: Route.ComponentProps) {
         </CardHeader>
 
         <CardContent>
-          <form onSubmit={handleSubmit(onSubmit)} className="w-full max-w-4xl">
+          <form onSubmit={handleSubmit(onSubmit)} className="w-full max-w-4xl flex flex-col justify-center mx-auto">
 
             <div>
               <h2 className="text-2xl font-semibold mb-3">Refeições</h2>
               {mealFields.map((field, index) => (
                 <div className="mb-4 border rounded-lg">
                   <Badge className="mx-4 mt-2" variant={"outline"}>R$ {mealsArray[index]?.price || "0,00"}</Badge>
-                  <div key={field.id} className="flex items-center w-full gap-2 justify-between p-3 ">
+                  <div key={field.id} className="flex flex-col items-center justify-center gap-2  p-2 ">
                     <Controller
                       control={control}
                       name={`meals.${index}.name`}
@@ -171,12 +165,11 @@ export default function Comanda({ loaderData }: Route.ComponentProps) {
                           field.onChange(value);
                           const selectedMeal = meals.find((m: Meal) => m.name === value);
                           if (selectedMeal) {
-                            console.log((parseFloat(selectedMeal.price) * parseFloat(peso)).toString())
                             setValue(`meals.${index}.price`, selectedMeal.price);
                             setValue(`meals.${index}.weekendPrice`, selectedMeal.weekendPrice);
                           }
                         }} value={field.value}>
-                          <SelectTrigger className="w-75"><SelectValue placeholder="Selecione uma refeição" /></SelectTrigger>
+                          <SelectTrigger className="w-full"><SelectValue placeholder="Selecione uma refeição" /></SelectTrigger>
                           <SelectContent>
                             {meals.map((meal: Meal) => (
                               <SelectItem key={meal.id} value={meal.name}>{meal.name}</SelectItem>
@@ -187,13 +180,18 @@ export default function Comanda({ loaderData }: Route.ComponentProps) {
                     />
                     {
                       mealsArray[index]?.name === "Por quilo" &&
-                      <Input placeholder="Pesagem" type="number" step="0.010" value={peso} onChange={(e) => { calculatePricePerWeight(mealsArray[index]?.weekendPrice ?? "44,00", e.target.value, index) }} />
+                     ( 
+                     <div className="flex w-full flex-col justify-start gap-2">
+                     <Label>Peso kg</Label>
+                      <Input className="w-full" placeholder="Pesagem" type="number" step="0.010" value={peso} onChange={(e) => { calculatePricePerWeight(mealsArray[index]?.weekendPrice ?? "44,00", e.target.value, index) }} />
+                     </div>
+                     )
 
                     }
 
 
                     <Input {...register(`meals.${index}.weekendPrice`)} placeholder="Preço" type="number" readOnly hidden />
-                    <Button type="button" onClick={() => removeMeal(index)} variant="destructive"><Trash2 /></Button>
+                    <Button type="button" onClick={() => removeMeal(index)} variant="destructive" className="flex justify-center w-full"><Trash2 /></Button>
                   </div>
                 </div>
               ))}
@@ -211,8 +209,8 @@ export default function Comanda({ loaderData }: Route.ComponentProps) {
                 return (
                   <div className="border rounded-lg  mb-4">
                     <Badge variant={"outline"} className="mx-4 mt-2">R$ {productArray?.[index]?.price || "0,00"}</Badge>
-                    <div key={field.id} className="flex items-center justify-between gap-2 p-3 ">
-                      <div className="flex items-center gap-2">
+                    <div key={field.id} className="flex flex-col md:flex-rowitems-center justify-between gap-2 p-3 ">
+                      <div className="flex flex-col md:flex-row items-left gap-2">
                         <Controller
                           control={control}
                           name={`otherItems.${index}.type`}
@@ -256,7 +254,7 @@ export default function Comanda({ loaderData }: Route.ComponentProps) {
                       </div>
 
                       <Input {...register(`otherItems.${index}.price`)} placeholder="Preço" type="number" step="0.01" hidden readOnly />
-                      <Button type="button" onClick={() => removeOtherItem(index)} variant="destructive"><Trash2 /></Button>
+                      <Button type="button" onClick={() => removeOtherItem(index)} variant="destructive" className="flex justify-center"><Trash2 /></Button>
                     </div>
                   </div>
                 )
@@ -266,13 +264,13 @@ export default function Comanda({ loaderData }: Route.ComponentProps) {
 
             <Separator className="my-6" />
               <div className="flex gap-4 justify-end items-center">
-                <Button className="flex gap-2 items-center" variant={"secondary"} onClick={(e)=>{e.preventDefault(); navigate('/comanda/')}}> <ArrowLeft></ArrowLeft> Voltar </Button>
-                <Button type="submit" variant={"success"} className=" text-md">Salvar Comanda</Button>
+                <Button className="flex gap-2 items-center" variant={"secondary"} onClick={(e)=>{e.preventDefault();  navigate(-1)}}> <ArrowLeft></ArrowLeft> Voltar </Button>
+                <Button type="submit" variant={"success"} className=" text-md flex gap-2">Salvar <Save></Save> </Button>
               </div>
           </form>
         </CardContent>
 
-        <CardFooter></CardFooter>
+
 
       </Card>
 

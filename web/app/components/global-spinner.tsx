@@ -3,13 +3,29 @@ import { motion, AnimatePresence } from "motion/react"
 import { Loader2Icon, Zap } from "lucide-react"
 import { useThresholdSpinnerStore } from "~/store/threshold-spinner"
 
-export function GlobalSpinner() {
+
+interface GlobalSpinnerProps {
+    display?: boolean
+    messageProp?: string
+}
+
+export function GlobalSpinner( {display, messageProp}: GlobalSpinnerProps ) {
     const isLoading = useThresholdSpinnerStore((state) => state.isLoading)
     const message = useThresholdSpinnerStore((state) => state.message)
     const [displaySpinner, setDisplaySpinner] = useState(false)
     const [timeElapsed, setTimeElapsed] = useState(0)
 
     // Threshold delay - spinner shows after 300ms
+
+    useEffect(() => {
+        if (display) {
+            setDisplaySpinner(true)
+        } else {
+            setDisplaySpinner(false)
+        }
+    }, [display])
+    
+
     useEffect(() => {
         let timeout: NodeJS.Timeout
         if (isLoading) {

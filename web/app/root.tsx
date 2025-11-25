@@ -54,7 +54,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Meta />
         <Links />
       </head>
-      <body className="bg-linear-to-t from-zinc-50 to-zinc-100 min-h-screen">
+      <body className="bg-linear-to-bl from-zinc-50 to-zinc-300 min-h-screen">
         <Toaster />
         <GlobalSpinner />
         {children}

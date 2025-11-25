@@ -12,6 +12,10 @@ export default [
             index("routes/pagamento.tsx"),
             route(":id", "routes/payment-comanda.tsx"),
         ]),
-        route("admin", "routes/admin.tsx"),
+        ...prefix("admin", [
+            index("routes/admin/index.tsx"),
+            route("invoices", "routes/admin/invoices.tsx"),
+            route("qr-codes", "routes/admin/qr-codes.tsx"),
+        ]),
     ])
 ] satisfies RouteConfig;

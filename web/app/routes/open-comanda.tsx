@@ -22,6 +22,27 @@ export default function Comanda() {
     navigate(`/comanda/${number}`);
   }
 
+  function handleKeyDown(e: React.KeyboardEvent<HTMLInputElement>) {
+    const allowedKeys = [
+      "Backspace", "Delete", "Tab", "Escape", "Enter",
+      "Home", "End", "ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown"
+    ];
+  
+    if (allowedKeys.includes(e.key)) {
+      return;
+    }
+  
+    // Allow Ctrl+A, C, V, X
+    if ((e.ctrlKey || e.metaKey) && ['a', 'c', 'v', 'x'].includes(e.key.toLowerCase())) {
+      return;
+    }
+  
+    // Block if not a digit
+    if (!/^\d$/.test(e.key)) {
+      e.preventDefault();
+    }
+  }
+
 
   return (
     <main className="flex flex-col gap-2 justify-center items-center min-h-[86vh] mx-auto p-2">
@@ -30,7 +51,17 @@ export default function Comanda() {
         <form className="flex flex-col justify-center gap-8" onSubmit={(e) => { e.preventDefault(); handleNumber(); }}>
           <div className="flex flex-col gap-2">
             <Label>Insira o número da comanda</Label>
-            <Input onChange={(e) => { setNumber(e.target.value) }} className="h-12 bg-zinc-50" type="number" min={0}></Input>
+            <Input
+              onKeyDown={handleKeyDown}
+              onChange={(e) => {
+                const numericValue = e.target.value.replace(/[^0-9]/g, '');
+                setNumber(numericValue);
+              }}
+              value={number}
+              className="h-12 bg-zinc-50"
+              type="number"
+              min={0}
+            ></Input>
           </div>
 
           <Button size={"lg"} type="submit">Abrir comanda</Button>
