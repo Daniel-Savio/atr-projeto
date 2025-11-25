@@ -24,7 +24,7 @@ export default function Comanda() {
 
 
   return (
-    <main className="flex flex-col gap-2 justify-center items-center min-h-screen mx-auto p-2">
+    <main className="flex flex-col gap-2 justify-center items-center min-h-[86vh] mx-auto p-2">
       <h1 className="text-2xl font-extrabold mb-15">Abrir Comanda</h1>
       <section>
         <form className="flex flex-col justify-center gap-8" onSubmit={(e) => { e.preventDefault(); handleNumber(); }}>
