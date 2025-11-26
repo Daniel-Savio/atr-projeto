@@ -16,12 +16,13 @@ declare module 'motia' {
     'CreateProduct': ApiRouteHandler<{ type: 'sobremesa' | 'bebida-nao-alcolicas' | 'bebidas-alcolicas'; name: string; price: string }, unknown, never>
     'GetOrder': ApiRouteHandler<{ string: string }, unknown, never>
     'GetOrderById': ApiRouteHandler<Record<string, unknown>, unknown, never>
+    'GetOpenOrders': ApiRouteHandler<{ string: string }, unknown, never>
     'GetOpenOrderByNumber': ApiRouteHandler<{ string: string }, unknown, never>
+    'GetClosedOrders': ApiRouteHandler<{ string: string }, unknown, never>
+    'DeleteOrder': ApiRouteHandler<Record<string, unknown>, unknown, never>
     'CreateOrder': ApiRouteHandler<{ number: string; status?: 'Open' | 'Closed' | 'Cancelled'; meals: Array<{ id?: string; name: string; price: string; weekendPrice?: string }>; otherItems?: Array<{ id?: string; type: 'sobremesa' | 'bebida-nao-alcolicas' | 'bebidas-alcolicas'; name: string; price: string }> }, unknown, never>
     'CloseOrder': ApiRouteHandler<Record<string, unknown>, unknown, never>
     'GetMeals': ApiRouteHandler<Array<{ id?: string; name: string; price: string; weekendPrice?: string }>, unknown, never>
     'CreateMeal': ApiRouteHandler<{ name: string; price: string; weekendPrice?: string }, unknown, never>
-    'GetOpenOrders': ApiRouteHandler<{ string: string }, unknown, never>
-    'GetClosedOrders': ApiRouteHandler<{ string: string }, unknown, never>
   }
 }

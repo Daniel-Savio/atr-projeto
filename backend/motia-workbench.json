@@ -33,8 +33,8 @@
     "id": "ProductManagement",
     "config": {
       "steps\\endpoints\\product\\get-products.step.ts": {
-        "x": -6,
-        "y": 164
+        "x": -4,
+        "y": 166
       },
       "steps\\endpoints\\product\\create-product.step.ts": {
         "x": 1,
@@ -46,32 +46,36 @@
     "id": "OrderManagement",
     "config": {
       "steps\\endpoints\\order\\get-order.step.ts": {
-        "x": 312,
-        "y": 29
-      },
-      "steps\\endpoints\\order\\get-open-order-by-number.step.ts": {
-        "x": 301,
-        "y": 191
-      },
-      "steps\\endpoints\\order\\create-order.step.ts": {
-        "x": -103,
-        "y": 174
+        "x": 434,
+        "y": 523
       },
       "steps\\endpoints\\order\\get-order-by-id.step.ts": {
-        "x": 286,
-        "y": 503
+        "x": 433,
+        "y": 365
+      },
+      "steps\\endpoints\\order\\get-open-orders.step.ts": {
+        "x": 430,
+        "y": 205
+      },
+      "steps\\endpoints\\order\\get-open-order-by-number.step.ts": {
+        "x": 12,
+        "y": 145
+      },
+      "steps\\endpoints\\order\\get-closed-orders.step.ts": {
+        "x": 26,
+        "y": 608
+      },
+      "steps\\endpoints\\order\\delete-order.step.ts": {
+        "x": 32,
+        "y": 760
+      },
+      "steps\\endpoints\\order\\create-order.step.ts": {
+        "x": 20,
+        "y": 303
       },
       "steps\\endpoints\\order\\close-order.step.ts": {
-        "x": -99,
-        "y": 318
-      },
-      "steps\\endpoints\\order\\get-open-order.step.ts": {
-        "x": 291,
-        "y": 345
-      },
-      "steps\\endpoints\\order\\get-closed-order.step.ts": {
-        "x": 264,
-        "y": 676
+        "x": 26,
+        "y": 455
       }
     }
   }
