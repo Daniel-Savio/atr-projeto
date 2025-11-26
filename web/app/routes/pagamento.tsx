@@ -12,7 +12,7 @@ export async function clientLoader() {
     const res = await fetch("http://localhost:3000/opened/orders");
     if (!res.ok) {
         toast.error("Falha ao buscar comandas abertas.", { position: "top-right" });
-        throw new Error("Failed to fetch open orders");
+       return [];
     }
     const data: { message: string, orders: Order[] } = await res.json();
     return data.orders;

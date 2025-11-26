@@ -2,6 +2,8 @@ import type { Order } from "types";
 import { Button } from "./ui/button";
 import { Separator } from "~/components/ui/separator";
 import { Badge } from "./ui/badge";
+import { useNavigate } from "react-router";
+import { QrCode } from "lucide-react";
 
 interface Props {
     returnedCode: (value: string) => void,
@@ -9,11 +11,16 @@ interface Props {
 }
 
 export default function Invoices({ returnedCode, orders }: Props) {
-    
+    const navigate = useNavigate();
     return (
         <div className="flex items-center w-full justify-center flex-col gap-5 text-center">
            
-
+                {!orders.length && (
+                    <>  
+                        <h1 className="text-lg font-medium border-l-2 border-b-2 border-zinc-900 p-2">Nenhuma comanda aberta encontrada.</h1>
+                        <Button className="flex gap-2" onClick={()=>{navigate("/comanda")}}>Criar nova comanda <QrCode></QrCode></Button>
+                    </>
+                )}
                 <ul className="flex flex-wrap justify-center gap-4">
                     {orders.map((order) => (
                         <li onClick={() => returnedCode(order.id!)} key={order.id} className="relative cursor-pointer transition-all size-54 bg-zinc-100 shadow-md border-zinc-400 rounded-sm hover:size-56">

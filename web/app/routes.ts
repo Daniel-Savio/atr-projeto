@@ -16,6 +16,7 @@ export default [
             index("routes/admin/index.tsx"),
             route("invoices", "routes/admin/invoices.tsx"),
             route("qr-codes", "routes/admin/qr-codes.tsx"),
+            route("reports", "routes/admin/reports.tsx"),
         ]),
     ])
 ] satisfies RouteConfig;

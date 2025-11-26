@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "react-router";
+import { Link, useNavigate, useRevalidator } from "react-router";
 import { Button } from "~/components/ui/button";
 import { ArrowLeft } from "lucide-react";
 import InvoicesTable from "~/components/invoices-table";
@@ -6,6 +6,7 @@ import type { Order } from "types";
 import { toast } from "sonner";
 import { Skeleton } from "~/components/ui/skeleton";
 import type { Route } from "./+types/invoices";
+import { useEffect } from "react";
 
 export async function clientLoader() {
     const res = await fetch("http://localhost:3000/orders");
@@ -30,6 +31,9 @@ export function HydrateFallback() {
 
 export default function AdminInvoices({ loaderData }: Route.ComponentProps) {
     const navigate = useNavigate();
+    const revalidator = useRevalidator();
+
+    
 
     const handleEdit = (orderId: string) => {
         navigate(`/comanda/${orderId}`);
@@ -41,10 +45,22 @@ export default function AdminInvoices({ loaderData }: Route.ComponentProps) {
         toast.success(`Nota ${orderId} foi fechada! (simulação)`);
     };
 
-    const handleDelete = (orderId: string) => {
-        // Here you would typically make an API call to delete the order
-        toast.error(`Nota ${orderId} foi deletada! (simulação)`);
+    const handleDelete = async (orderId: string) => {
+        const deletedOrderResponse = await fetch(`http://localhost:3000/orders/${orderId}`, {
+            method: "DELETE",
+        });
+
+        const deletedOrder: {message:string, order: Order} = await deletedOrderResponse.json()
+
+        if (!deletedOrderResponse.ok) {
+            toast.error(`Falha ao deletar a nota ${orderId}.`);
+            return;
+        }
+        toast.error(deletedOrder.message);
+        revalidator.revalidate();
     };
+    
+    useEffect(() => {}, [handleDelete, handleEdit, loaderData]);
 
     return (
         <main className="flex flex-col items-center pt-16 pb-4 min-h-[86vh] w-full px-4">

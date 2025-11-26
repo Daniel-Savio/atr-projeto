@@ -67,8 +67,8 @@ export default function PaymentComanda({ loaderData }: Route.ComponentProps) {
 
   async function closeComanda() {
      loading.setLoading(true);
-    console.log(loaderData.id);
-    const response = await fetch(
+     console.log(loaderData.id);
+     const response = await fetch(
       `http://localhost:3000/orders/close/${loaderData.id}`,
       {
         method: "PATCH",
@@ -83,7 +83,13 @@ export default function PaymentComanda({ loaderData }: Route.ComponentProps) {
         position: "top-right",
       });
       navigate("/pagamento");
+    }else{
+      let responseJson = await response.json();
+      toast.error(responseJson.message, { position: "top-right" });
+      loading.setLoading(false);
+   
     }
+
   }
 
   const allItems = [...(order.meals || []), ...(order.otherItems || [])];

@@ -60,15 +60,15 @@ export default function InvoicesTable({ orders, onEdit, onClose, onDelete }: Inv
             <TableHead className="transition-all" style={{ display: visibleColumns.data ? 'table-cell' : 'none' }}>
               <Button variant="ghost" onClick={() => toggleColumn('data')}><Calendar /></Button>
             </TableHead>
-            <TableHead className="transition-all" style={{ display: visibleColumns.total ? 'table-cell' : 'none' }}>
-              <Button variant="ghost" onClick={() => toggleColumn('total')}><Banknote /></Button>
+            <TableHead className="transition-all flex justify-end" style={{ display: visibleColumns.total ? 'table-cell' : 'none' }}>
+              <TableCell><Button variant="ghost" onClick={() => toggleColumn('total')}><Banknote /></Button></TableCell>
             </TableHead >
-            <TableHead><TableCell></TableCell></TableHead>
+            <TableHead><TableCell>#</TableCell></TableHead>
           </TableRow>
         </TableHeader>
         <TableBody className="text-xs">
           {orders.map((order) => (
-            <TableRow key={order.id} className="border-b border-zinc-600">
+            <TableRow key={order.id} className="border-b border-zinc-600 w-fit">
               <TableCell className="font-medium">{order.number}</TableCell>
               <TableCell style={{ display: visibleColumns.status ? 'table-cell' : 'none' }}>
                 <Badge className="text-xs w-fit h-fit" variant={order.status === "Open" ? "destructive" : "default"}>
