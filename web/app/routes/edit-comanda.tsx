@@ -43,9 +43,9 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
   const comandaNumber = params.comandaNumber;
 
   const [orderResponse, mealsResponse, productsResponse] = await Promise.all([
-    fetch(`http://localhost:3000/orders/open/${comandaNumber}`),
-    fetch(`http://localhost:3000/meals`),
-    fetch(`http://localhost:3000/products`)
+    fetch(`https://churrascaria-api.chamber-vault.uk/orders/open/${comandaNumber}`),
+    fetch(`https://churrascaria-api.chamber-vault.uk/meals`),
+    fetch(`https://churrascaria-api.chamber-vault.uk/products`)
   ]);
 
   let order: Order;
@@ -120,7 +120,7 @@ export default function Comanda({ loaderData }: Route.ComponentProps) {
   const mealsArray = watch("meals");
 
   const onSubmit = async (data: PostOrderSchema) => {
-    await fetch("http://localhost:3000/orders", {
+    await fetch("https://churrascaria-api.chamber-vault.uk/orders", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

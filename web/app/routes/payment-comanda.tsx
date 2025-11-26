@@ -19,7 +19,7 @@ import { ArrowLeft, Check, Pencil } from "lucide-react";
 import { useThresholdSpinnerStore } from "~/store/threshold-spinner";
 
 export async function clientLoader({ params }: Route.ClientLoaderArgs) {
-  const response = await fetch(`http://localhost:3000/orders/${params.id}`);
+  const response = await fetch(`https://churrascaria-api.chamber-vault.uk/orders/${params.id}`);
   if (!response.ok) {
     throw new Error("Order not found");
   }
@@ -69,7 +69,7 @@ export default function PaymentComanda({ loaderData }: Route.ComponentProps) {
      loading.setLoading(true);
      console.log(loaderData.id);
      const response = await fetch(
-      `http://localhost:3000/orders/close/${loaderData.id}`,
+      `https://churrascaria-api.chamber-vault.uk/orders/close/${loaderData.id}`,
       {
         method: "PATCH",
         headers: {

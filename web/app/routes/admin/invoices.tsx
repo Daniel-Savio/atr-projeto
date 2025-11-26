@@ -9,7 +9,7 @@ import type { Route } from "./+types/invoices";
 import { useEffect } from "react";
 
 export async function clientLoader() {
-    const res = await fetch("http://localhost:3000/orders");
+    const res = await fetch("https://churrascaria-api.chamber-vault.uk/orders");
     if (!res.ok) {
         toast.error("Falha ao buscar as notas.", { position: "top-right" });
         throw new Error("Failed to fetch invoices");
@@ -46,7 +46,7 @@ export default function AdminInvoices({ loaderData }: Route.ComponentProps) {
     };
 
     const handleDelete = async (orderId: string) => {
-        const deletedOrderResponse = await fetch(`http://localhost:3000/orders/${orderId}`, {
+        const deletedOrderResponse = await fetch(`https://churrascaria-api.chamber-vault.uk/orders/${orderId}`, {
             method: "DELETE",
         });
 

@@ -9,7 +9,7 @@ import type { Route } from "./+types/pagamento";
 import { QRcodeScanner } from "~/components/qr-code-scanner";
 
 export async function clientLoader() {
-    const res = await fetch("http://localhost:3000/opened/orders");
+    const res = await fetch("https://churrascaria-api.chamber-vault.uk/opened/orders");
     if (!res.ok) {
         toast.error("Falha ao buscar comandas abertas.", { position: "top-right" });
        return [];
@@ -52,7 +52,7 @@ export default function Pagamento({ loaderData }: Route.ComponentProps) { // NOS
     }
 
     async function handleQrCodeRead(value: string) {
-       const {order} = await (await fetch(`http://localhost:3000/orders/open/${value}`)).json();
+       const {order} = await (await fetch(`https://churrascaria-api.chamber-vault.uk/orders/open/${value}`)).json();
        console.log(order);
        navigate(`/pagamento/${order.id}`);
     }
