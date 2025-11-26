@@ -5,4 +5,8 @@ import tsconfigPaths from "vite-tsconfig-paths";
 
 export default defineConfig({
   plugins: [tailwindcss(), reactRouter(), tsconfigPaths()],
+  server: {
+    // Add the specific domain here
+    allowedHosts: ['churrascaria.chamber-vault.uk']
+  }
 });
