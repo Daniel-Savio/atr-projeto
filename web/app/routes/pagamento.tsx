@@ -12,18 +12,18 @@ export async function clientLoader() {
     const res = await fetch("https://churrascaria-api.chamber-vault.uk/opened/orders");
     if (!res.ok) {
         toast.error("Falha ao buscar comandas abertas.", { position: "top-right" });
-       return [];
+        return [];
     }
     const data: { message: string, orders: Order[] } = await res.json();
     return data.orders;
 }
 
 export function HydrateFallback() {
-    
+
     return (
         <div className="flex justify-center flex-col gap-5 text-center ml-6">
             <h1 className="text-xl font-bold">Comandas Abertas</h1>
-            
+
             <Separator></Separator>
             <div className="flex flex-wrap justify-center gap-4 mx-auto">
                 {[...Array(8)].map((_, i) => (
@@ -44,17 +44,17 @@ export function HydrateFallback() {
 }
 
 
-export default function Pagamento({ loaderData }: Route.ComponentProps) { // NOSONAR
+export default function Pagamento({ loaderData }: Route.ComponentProps) {
     const navigate = useNavigate();
-    
+
     function handleReturnedCode(value: string) {
         navigate(`/pagamento/${value}`);
     }
 
     async function handleQrCodeRead(value: string) {
-       const {order} = await (await fetch(`https://churrascaria-api.chamber-vault.uk/orders/open/${value}`)).json();
-       console.log(order);
-       navigate(`/pagamento/${order.id}`);
+        const { order } = await (await fetch(`https://churrascaria-api.chamber-vault.uk/orders/open/${value}`)).json();
+        console.log(order);
+        navigate(`/pagamento/${order.id}`);
     }
 
     return (
@@ -62,9 +62,9 @@ export default function Pagamento({ loaderData }: Route.ComponentProps) { // NOS
             <h1 className="text-xl font-bold">Comandas Abertas</h1>
             <QRcodeScanner returnedCode={(value) => handleQrCodeRead(value.rawValue)}></QRcodeScanner>
             <Separator></Separator>
-              
+
             <Invoices returnedCode={(value: string) => handleReturnedCode(value)} orders={loaderData}></Invoices>`
-            
+
         </section>
     )
 }

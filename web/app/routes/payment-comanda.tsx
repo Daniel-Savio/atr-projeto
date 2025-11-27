@@ -66,9 +66,9 @@ export default function PaymentComanda({ loaderData }: Route.ComponentProps) {
   };
 
   async function closeComanda() {
-     loading.setLoading(true);
-     console.log(loaderData.id);
-     const response = await fetch(
+    loading.setLoading(true);
+    console.log(loaderData.id);
+    const response = await fetch(
       `https://churrascaria-api.chamber-vault.uk/orders/close/${loaderData.id}`,
       {
         method: "PATCH",
@@ -83,11 +83,11 @@ export default function PaymentComanda({ loaderData }: Route.ComponentProps) {
         position: "top-right",
       });
       navigate("/pagamento");
-    }else{
+    } else {
       let responseJson = await response.json();
       toast.error(responseJson.message, { position: "top-right" });
       loading.setLoading(false);
-   
+
     }
 
   }
@@ -104,9 +104,9 @@ export default function PaymentComanda({ loaderData }: Route.ComponentProps) {
         <CardHeader className="flex justify-between gap-2">
           <div>
             <CardTitle className="text-2xl font-bold">
-            Nota Fiscal #{order.number}
-          </CardTitle>
-          <CardDescription>Visualização da nota fiscal</CardDescription>
+              Comanda #{order.number}
+            </CardTitle>
+            <CardDescription>Visualização da nota fiscal</CardDescription>
           </div>
           <Button
             className="flex gap-2 rounded-full items-center"
@@ -114,20 +114,20 @@ export default function PaymentComanda({ loaderData }: Route.ComponentProps) {
               navigate(-1);
             }}
           >
-            <ArrowLeft></ArrowLeft> 
+            <ArrowLeft></ArrowLeft>
           </Button>
         </CardHeader>
         <ScrollArea>
           <CardContent className="h-[45vh]">
             <div className="grid grid-cols-2 gap-4 mb-6">
               <div>
-                <p className="text-sm font-medium text-gray-500">Comanda:</p>
+                <p className="text-sm font-medium text-gray-500">Nota Fiscal:</p>
                 <p className="text-xs">{order.id}</p>
               </div>
               <div className="text-right">
                 <p className="text-sm font-medium text-gray-500">Data:</p>
                 <p className="text-base font-semibold">
-                  {new Date(order.date || "").toLocaleDateString()}
+                  {new Date(order.date || "").toLocaleString()}
                 </p>
               </div>
             </div>

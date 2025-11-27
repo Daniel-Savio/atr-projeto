@@ -54,7 +54,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Meta />
         <Links />
       </head>
-      <body className="bg-linear-to-bl from-zinc-50 to-zinc-300 min-h-screen">
+      <body className="bg-gradient-to-bl from-gray-200 via-gray-300 to-gray-400 min-h-screen">
         <Toaster />
         <GlobalSpinner />
         {children}
